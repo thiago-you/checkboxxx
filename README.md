@@ -1,5 +1,5 @@
 # Checkboxxx
-Checkbox that have three states to toggle: Active, Inactive and Indeterminate. The library provide methods to allow indeterminate state toggle.
+Checkbox that has three states to toggle: Active, Inactive and Indeterminate. The library provides methods for configuring indeterminate state toggle.
 
 ### SAMPLE
     // sample list
