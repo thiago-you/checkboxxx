@@ -1,12 +1,21 @@
 # Checkboxxx
 Checkbox that has three states to toggle: Active, Inactive and Indeterminate. The library provides methods for configuring indeterminate state toggle.
 
-### SAMPLE
-    // sample list
+### DEMO
+    ![checkboxx](sample/checkboxxx.gif)
 
 ### USAGE DEMO
-    // init checkboxxx
+    // on XML layout
+    <you.thiago.checkboxxx.CheckBoxxx
+            android:id="@+id/checkboxxx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your checkboxxx"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
 
+    // on code you can allow indeterminate state
+    checkboxxx.allowIndeterminateState(true);
 
 ### Requirements
     Min SDK Version >= 19
