@@ -2,7 +2,7 @@
 Checkbox that has three states to toggle: Active, Inactive and Indeterminate. The library provides methods for configuring indeterminate state toggle.
 
 ### DEMO
-    ![checkboxx](sample/checkboxxx.gif)
+![checkboxxx](sample/checkboxxx.gif?raw=true "Checkboxxx")
 
 ### USAGE DEMO
     // on XML layout
