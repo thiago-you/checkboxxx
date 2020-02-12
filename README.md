@@ -17,6 +17,15 @@ Checkbox that has three states to toggle: Active, Inactive and Indeterminate. Th
     // on code you can allow indeterminate state
     checkboxxx.allowIndeterminateState(true);
 
+    // get checked state
+    // -1 => Indeterminate
+    // 0 => Unchecked
+    // 1 => Checked
+    checkboxxx.getState();
+
+    // you can set state using class constants
+    checkboxxx.getState(CheckBoxxx.CHECKED);
+
 ### Requirements
     Min SDK Version >= 19
 
