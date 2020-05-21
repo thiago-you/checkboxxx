@@ -14,8 +14,20 @@ Checkbox that has three states to toggle: Active, Inactive and Indeterminate. Th
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
 
+    // on XML you can use custom attrs to set some behaviors
+    app:indeterminate_state="true" // allow indeterminate state (use false as default)
+    app:unchecked_state="false" // disable unchecked state (use true as default)
+    app:state="checked" // set initial state (use indeterminate as default)
+
+    // when unchecked state is disabled, the states toggle between indeterminate and checked
+
+    // behaviors can also be set on code:
+
     // on code you can allow indeterminate state
     checkboxxx.allowIndeterminateState(true);
+
+    // on code you can disable unchecked state
+    checkboxxx.allowUncheckedState(true);
 
     // get checked state
     // -1 => Indeterminate
@@ -24,7 +36,7 @@ Checkbox that has three states to toggle: Active, Inactive and Indeterminate. Th
     checkboxxx.getState();
 
     // you can set state using class constants
-    checkboxxx.getState(CheckBoxxx.CHECKED);
+    checkboxxx.setState(CheckBoxxx.CHECKED);
 
 ### Requirements
     Min SDK Version >= 19
