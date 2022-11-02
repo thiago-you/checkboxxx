@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="checkboxUnknown">#012371</color>
-    <color name="checkboxError">#FF512B</color>
-    <color name="checkboxChecked">#03dac6</color>
+    <color name="checkbox_unknown">#012371</color>
+    <color name="checkbox_error">#FF512B</color>
+    <color name="checkbox_checked">#03dac6</color>
 </resources>

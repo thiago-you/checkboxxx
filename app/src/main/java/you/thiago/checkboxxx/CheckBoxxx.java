@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.CompoundButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatCheckBox;
@@ -26,6 +25,23 @@ public class CheckBoxxx extends AppCompatCheckBox {
     private boolean allowUnchecked;
     private int state;
 
+    private OnStateChangeListener stateChangeListener;
+    private OnStateCheckedListener stateCheckedListener;
+
+    /**
+     * State change listener
+     */
+    public interface OnStateChangeListener {
+        void onStateChange(int state);
+    }
+
+    /**
+     * State checked listener
+     */
+    public interface OnStateCheckedListener {
+        void onStateChange(boolean isChecked);
+    }
+
     public CheckBoxxx(Context context) {
         super(context);
         init(context, null);
@@ -39,6 +55,14 @@ public class CheckBoxxx extends AppCompatCheckBox {
     public CheckBoxxx(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
+    }
+
+    public void addStateChangeListener(OnStateChangeListener listener) {
+        stateChangeListener = listener;
+    }
+
+    public void addStateCheckedListener(OnStateCheckedListener listener) {
+        stateCheckedListener = listener;
     }
 
     private void init(Context context, @Nullable AttributeSet attrs) {
@@ -60,51 +84,57 @@ public class CheckBoxxx extends AppCompatCheckBox {
 
         updateBtnState();
 
-        setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isPressed()) {
-                    if (allowUnknown) {
-                        switch (state) {
-                            case CheckBoxxx.UNKNOWN: {
-                                state = CheckBoxxx.UNCHECKED;
-                                break;
-                            }
-                            case CheckBoxxx.UNCHECKED: {
-                                state = CheckBoxxx.CHECKED;
-                                break;
-                            }
-                            case CheckBoxxx.CHECKED: {
-                                state = CheckBoxxx.UNKNOWN;
-                                break;
-                            }
+        setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed()) {
+                if (allowUnknown) {
+                    switch (state) {
+                        case CheckBoxxx.UNKNOWN: {
+                            state = CheckBoxxx.UNCHECKED;
+                            break;
                         }
-                    } else if (!allowUnchecked) {
-                        switch (state) {
-                            case CheckBoxxx.UNCHECKED:
-                            case CheckBoxxx.UNKNOWN: {
-                                state = CheckBoxxx.CHECKED;
-                                break;
-                            }
-                            case CheckBoxxx.CHECKED: {
-                                state = CheckBoxxx.UNKNOWN;
-                                break;
-                            }
+                        case CheckBoxxx.UNCHECKED: {
+                            state = CheckBoxxx.CHECKED;
+                            break;
                         }
-                    } else {
-                        switch (state) {
-                            case CheckBoxxx.UNKNOWN:
-                            case CheckBoxxx.CHECKED: {
-                                state = CheckBoxxx.UNCHECKED;
-                                break;
-                            }
-                            case CheckBoxxx.UNCHECKED: {
-                                state = CheckBoxxx.CHECKED;
-                                break;
-                            }
+                        case CheckBoxxx.CHECKED: {
+                            state = CheckBoxxx.UNKNOWN;
+                            break;
                         }
                     }
+                } else if (!allowUnchecked) {
+                    switch (state) {
+                        case CheckBoxxx.UNCHECKED:
+                        case CheckBoxxx.UNKNOWN: {
+                            state = CheckBoxxx.CHECKED;
+                            break;
+                        }
+                        case CheckBoxxx.CHECKED: {
+                            state = CheckBoxxx.UNKNOWN;
+                            break;
+                        }
+                    }
+                } else {
+                    switch (state) {
+                        case CheckBoxxx.UNKNOWN:
+                        case CheckBoxxx.CHECKED: {
+                            state = CheckBoxxx.UNCHECKED;
+                            break;
+                        }
+                        case CheckBoxxx.UNCHECKED: {
+                            state = CheckBoxxx.CHECKED;
+                            break;
+                        }
+                    }
+                }
 
-                    updateBtnState();
+                updateBtnState();
+
+                if (stateChangeListener != null) {
+                    stateChangeListener.onStateChange(state);
+                }
+
+                if (stateCheckedListener != null) {
+                    stateCheckedListener.onStateChange(isChecked());
                 }
             }
         });
@@ -112,21 +142,19 @@ public class CheckBoxxx extends AppCompatCheckBox {
 
     private void updateBtnState() {
         int btnDrawable = R.drawable.ic_indeterminate_check_box_black_24dp;
-        int btnTint = R.color.checkboxUnknown;
+        int btnTint = R.color.checkbox_unknown;
 
         switch (state) {
             case UNKNOWN: {
-                btnTint = R.color.checkboxUnknown;
                 btnDrawable = R.drawable.ic_check_box_outline_blank_black_24dp;
                 break;
             }
             case UNCHECKED: {
-                btnTint = R.color.checkboxError;
-                btnDrawable = R.drawable.ic_indeterminate_check_box_black_24dp;
+                btnTint = R.color.checkbox_error;
                 break;
             }
             case CHECKED: {
-                btnTint = R.color.checkboxChecked;
+                btnTint = R.color.checkbox_checked;
                 btnDrawable = R.drawable.ic_check_box_black_24dp;
                 break;
             }
